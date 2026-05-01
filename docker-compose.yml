@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  elevadr-web:
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+      - CHOWN
+      - SETUID
+      - SETGID
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      # Mount your local directory containing report.json to /usr/share/nginx/html/input
+      # Change ./reports to the path where your report files are located
+      - ./reports:/usr/share/nginx/html/input:ro
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    container_name: elevadr-web-frontend
+    deploy:
+      resources:
+        limits:
+          memory: 512MB # Hard limit of 512MB
+        reservations:
+          memory: 200MB # Soft limit (reservation) of 200MB
