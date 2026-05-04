@@ -38,7 +38,7 @@ repos:
         args:
           - --fix=lf
       - id: pretty-format-json
-        exclude: '^(package-lock\.json|package\.json|tsconfig\.json)$'
+        exclude: ^(package-lock\.json|package\.json|tsconfig\.json)$
         args:
           - --autofix
       - id: requirements-txt-fixer
@@ -93,7 +93,7 @@ repos:
           - --write
           # Indent by two spaces
           - --indent
-          - "2"
+          - 2
           # Binary operators may start a line
           - --binary-next-line
           # Switch cases are indented
@@ -105,22 +105,6 @@ repos:
     hooks:
       - id: shellcheck
 
-  - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 26.3.1
-    hooks:
-      - id: black
-        exclude: tests # Temporarily
-  # - repo: https://github.com/PyCQA/flake8
-  #   rev: 7.3.0
-  #   hooks:
-  #     - id: flake8
-  #       additional_dependencies:
-  #         - dlint==0.16.0
-  #         - flake8-bugbear==25.11.29
-  #         - flake8-comprehensions==3.17.0
-  #         - flake8-docstrings==1.7.0
-  #         - flake8-noqa==1.5.0
-  #         - pep8-naming==0.15.1
   - repo: https://github.com/PyCQA/isort
     rev: 8.0.1
     hooks:
