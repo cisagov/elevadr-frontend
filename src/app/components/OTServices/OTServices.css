@@ -29,7 +29,7 @@
   font-weight: 700;
   font-family: 'Roboto Mono', monospace;
   width: 15%;
-  white-space: normal; 
+  white-space: normal;
 }
 
 .description-cell {
@@ -88,4 +88,3 @@
     width: auto;
   }
 }
-

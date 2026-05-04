@@ -1,4 +1,5 @@
-version: '3.8'
+---
+version: "3.8"
 
 services:
   elevadr-web:
@@ -13,7 +14,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "127.0.0.1:8080:80"
+      - 127.0.0.1:8080:80
     volumes:
       # Mount your local directory containing report.json to /usr/share/nginx/html/input
       # Change ./reports to the path where your report files are located

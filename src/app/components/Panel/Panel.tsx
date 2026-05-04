@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Panel.css';
 
 interface PanelProps {
-  title: React.ReactNode; 
+  title: React.ReactNode;
   children: React.ReactNode;
   highlight?: boolean;
   isEmpty?: boolean;

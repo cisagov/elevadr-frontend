@@ -21,7 +21,7 @@ const ServicePanel: React.FC<ServicePanelProps> = ({ data }) => {
 
   return (
     <Panel
-      id="service-panel" 
+      id="service-panel"
       title={
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span>Service Panel</span>

@@ -30,7 +30,7 @@
   font-weight: 700;
   color: #1b1b1b;
   flex: 1;
-  display: flex; 
+  display: flex;
   align-items: center;
   gap: 8px;
 }
@@ -47,7 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px; 
+  width: 30px;
   height: 30px;
   border-radius: 4px;
   transition: background-color 0.2s ease;

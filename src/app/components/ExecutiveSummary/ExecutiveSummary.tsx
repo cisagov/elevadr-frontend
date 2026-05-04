@@ -2,7 +2,7 @@ import React from 'react';
 import './ExecutiveSummary.css';
 import Panel from '../Panel/Panel';
 import { ExecutiveSummary as ExecutiveSummaryType } from '../../types/Report';
-import InfoTooltip from '../InfoTooltip/InfoTooltip'; 
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 interface ExecutiveSummaryProps {
   data: ExecutiveSummaryType;

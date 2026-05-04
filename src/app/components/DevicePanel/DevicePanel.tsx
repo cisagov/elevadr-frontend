@@ -2,7 +2,7 @@ import React from 'react';
 import '../ServicePanel/ServicePanel.css';
 import Panel from '../Panel/Panel';
 import { DevicePanel as DevicePanelType } from '../../types/Report';
-import InfoTooltip from '../InfoTooltip/InfoTooltip'; 
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 interface DevicePanelProps {
   data: DevicePanelType;

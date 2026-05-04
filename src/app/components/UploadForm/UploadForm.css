@@ -15,7 +15,7 @@
 
 /* Add extra vertical space before the JSON upload form */
 .upload-form.json-upload-form {
-  margin-top: 1.5rem; 
+  margin-top: 1.5rem;
 }
 
 .upload-label {
@@ -57,7 +57,7 @@
 
 .form-actions {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   gap: 1rem;
 }
@@ -130,4 +130,3 @@
   color: #1b1b1b;
   font-size: 0.9rem;
 }
-
