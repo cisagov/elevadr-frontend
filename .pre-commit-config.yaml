@@ -93,7 +93,7 @@ repos:
           - --write
           # Indent by two spaces
           - --indent
-          - 2
+          - "2"
           # Binary operators may start a line
           - --binary-next-line
           # Switch cases are indented
