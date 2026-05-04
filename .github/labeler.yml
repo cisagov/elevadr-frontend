@@ -8,17 +8,13 @@
 # crazy-max/ghaction-github-labeler configuration file located at
 # .github/labels.yml.
 
-ansible:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "**/ansible/**"
 dependencies:
   - changed-files:
       - any-glob-to-any-file:
           # Add any dependency files used.
-          - "**/Pipfile*"
+          - "**/package-lock.json"
+          - "**/package.json"
           - .pre-commit-config.yaml
-          - requirements*.txt
 docker:
   - changed-files:
       - any-glob-to-any-file:
@@ -37,14 +33,12 @@ javascript:
   - changed-files:
       - any-glob-to-any-file:
           - "**/*.js"
+          - "**/*.jsx"
 packer:
   - changed-files:
       - any-glob-to-any-file:
           - "**/*.pkr.hcl"
-python:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "**/*.py"
+
 shell script:
   - changed-files:
       - any-glob-to-any-file:
@@ -53,10 +47,7 @@ shell script:
           - "**/*.sh"
           - bump-version
           - setup-env
-terraform:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "**/*.tf"
+
 test:
   - changed-files:
       - any-glob-to-any-file:
@@ -68,12 +59,12 @@ test:
           - .mdl_config.yaml
           - .yamllint
           - compose.yml
-          - pytest.ini
           - tests/**
 typescript:
   - changed-files:
       - any-glob-to-any-file:
           - "**/*.ts"
+          - "**/*.tsx"
 upstream update:
   - head-branch:
       # Any Lineage pull requests should use this branch.
