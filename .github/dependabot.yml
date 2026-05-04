@@ -29,6 +29,7 @@ updates:
       - dependency-name: actions/dependency-review-action
       - dependency-name: actions/labeler
       - dependency-name: actions/setup-node
+      - dependency-name: actions/setup-python
       - dependency-name: cisagov/action-job-preamble
       - dependency-name: cisagov/setup-env-github-action
       - dependency-name: crazy-max/ghaction-github-labeler

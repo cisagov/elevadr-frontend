@@ -19,7 +19,7 @@ COPY src/public/ ./public
 
 # Copy source code
 COPY src/app ./src
-COPY src/tsconfig.json ./
+COPY tsconfig.json ./
 
 # Build the application
 RUN --mount=type=secret,id=ssl_cert,required=false \
