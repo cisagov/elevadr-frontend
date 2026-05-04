@@ -143,13 +143,9 @@ jobs:
         with:
           version: ${{ steps.setup-env.outputs.packer-version }}
       - name: Install dependencies
-        run: |
-          cd src
-          npm ci
+        run: npm ci
       - name: Run ESLint
-        run: |
-          cd src
-          npm run lint
+        run: npm run lint
       - name: Set up pre-commit hook environments
         run: pre-commit install-hooks
       - name: Run pre-commit on all files
@@ -408,9 +404,7 @@ jobs:
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
       - name: Install dependencies
-        run: |
-          cd src
-          npm ci
+        run: npm ci
       - name: Download Docker image artifact
         uses: actions/download-artifact@v8
         with:
@@ -422,9 +416,7 @@ jobs:
       - name: Run tests
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
-        run: |
-          cd src
-          npm test
+        run: npm test
       - name: Setup tmate debug session
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE

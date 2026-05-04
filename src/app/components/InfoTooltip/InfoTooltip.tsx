@@ -16,7 +16,6 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({ text }) => {
       const buttonRect = buttonRef.current.getBoundingClientRect();
       const tooltipRect = tooltipRef.current.getBoundingClientRect();
       const tooltipWidth = tooltipRect.width;
-      const tooltipHeight = tooltipRect.height;
       const gap = 8;
       const padding = 10;
 

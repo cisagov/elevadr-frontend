@@ -4,7 +4,7 @@ FROM node:25-alpine AS build
 WORKDIR /app
 
 # Copy package files from the src/ directory
-COPY src/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 # Mount the cert secret for npm's SSL verification
