@@ -24,7 +24,7 @@
   color: #1b1b1b;
 }
 
-.upload-form input[type='file'] {
+.upload-form input[type="file"] {
   border: 1px dashed #a9aeb1;
   border-radius: 4px;
   padding: 0.75rem;
@@ -33,7 +33,7 @@
   font-size: 0.95rem;
 }
 
-.upload-form button[type='submit'] {
+.upload-form button[type="submit"] {
   align-self: flex-start;
   background-color: #005ea2;
   color: white;
@@ -46,11 +46,11 @@
   transition: background-color 0.15s ease;
 }
 
-.upload-form button[type='submit']:hover:not(:disabled) {
+.upload-form button[type="submit"]:hover:not(:disabled) {
   background-color: #0050d8;
 }
 
-.upload-form button[type='submit']:disabled {
+.upload-form button[type="submit"]:disabled {
   background-color: #a9aeb1;
   cursor: not-allowed;
 }

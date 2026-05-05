@@ -6,9 +6,9 @@ import {
   FilteredServicesResponse,
   ServiceDrilldownResponse,
   SuspiciousOutboundDrilldownResponse,
-} from '../types/Report';
+} from "../types/Report";
 
-const BACKEND_HTTP = 'http://localhost:8000';
+const BACKEND_HTTP = "http://localhost:8000";
 
 async function parseError(response: Response): Promise<string> {
   const text = await response.text();
@@ -104,7 +104,7 @@ export async function fetchFilteredConnections(
   const params = new URLSearchParams();
 
   Object.entries(filters).forEach(([key, value]) => {
-    if (value !== null && value !== undefined && value !== '') {
+    if (value !== null && value !== undefined && value !== "") {
       params.append(key, String(value));
     }
   });
@@ -127,7 +127,7 @@ export async function fetchFilteredDevices(
   const params = new URLSearchParams();
 
   Object.entries(filters).forEach(([key, value]) => {
-    if (value !== null && value !== undefined && value !== '') {
+    if (value !== null && value !== undefined && value !== "") {
       params.append(key, String(value));
     }
   });
@@ -150,7 +150,7 @@ export async function fetchFilteredServices(
   const params = new URLSearchParams();
 
   Object.entries(filters).forEach(([key, value]) => {
-    if (value !== null && value !== undefined && value !== '') {
+    if (value !== null && value !== undefined && value !== "") {
       params.append(key, String(value));
     }
   });

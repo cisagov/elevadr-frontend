@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './InfoTooltip.css';
+import React, { useState, useRef, useEffect } from "react";
+import "./InfoTooltip.css";
 
 interface InfoTooltipProps {
   text: string;
@@ -21,7 +21,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({ text }) => {
 
       // Position to the left of the button
       let left = buttonRect.left - gap;
-      let top = buttonRect.top + (buttonRect.height / 2);
+      let top = buttonRect.top + buttonRect.height / 2;
 
       // Check if there's enough space on the left
       if (left - tooltipWidth < padding) {
@@ -30,14 +30,14 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({ text }) => {
         setTooltipStyle({
           left: `${left}px`,
           top: `${top}px`,
-          transform: 'translateY(-50%)',
+          transform: "translateY(-50%)",
         });
       } else {
         // Position to the left
         setTooltipStyle({
           left: `${left}px`,
           top: `${top}px`,
-          transform: 'translate(-100%, -50%)',
+          transform: "translate(-100%, -50%)",
         });
       }
     }

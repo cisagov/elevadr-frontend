@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import './App.css';
-import { ElevadrReport } from './types/Report';
+import React, { useState } from "react";
+import "./App.css";
+import { ElevadrReport } from "./types/Report";
 
-import ExecutiveSummary from './components/ExecutiveSummary/ExecutiveSummary';
-import ServicePanel from './components/ServicePanel/ServicePanel';
-import DevicePanel from './components/DevicePanel/DevicePanel';
-import ServiceRiskBreakdownPanel from './components/ServiceRiskBreakdownPanel/ServiceRiskBreakdownPanel';
-import ServiceCountPanel from './components/ServiceCountPanel/ServiceCountPanel';
-import ConnectionSuccessPanel from './components/ConnectionSuccessPanel/ConnectionSuccessPanel';
-import SuspiciousOutboundConnectionsPanel from './components/SuspiciousOutboundConnectionsPanel/SuspiciousOutboundConnectionsPanel';
-import OTServices from './components/OTServices/OTServices';
-import OTCrossSegmentPanel from './components/OTCrossSegmentPanel/OTCrossSegmentPanel';
-import DevicesPanel from './components/DevicesPanel/DevicesPanel';
-import UploadForm from './components/UploadForm/UploadForm';
+import ExecutiveSummary from "./components/ExecutiveSummary/ExecutiveSummary";
+import ServicePanel from "./components/ServicePanel/ServicePanel";
+import DevicePanel from "./components/DevicePanel/DevicePanel";
+import ServiceRiskBreakdownPanel from "./components/ServiceRiskBreakdownPanel/ServiceRiskBreakdownPanel";
+import ServiceCountPanel from "./components/ServiceCountPanel/ServiceCountPanel";
+import ConnectionSuccessPanel from "./components/ConnectionSuccessPanel/ConnectionSuccessPanel";
+import SuspiciousOutboundConnectionsPanel from "./components/SuspiciousOutboundConnectionsPanel/SuspiciousOutboundConnectionsPanel";
+import OTServices from "./components/OTServices/OTServices";
+import OTCrossSegmentPanel from "./components/OTCrossSegmentPanel/OTCrossSegmentPanel";
+import DevicesPanel from "./components/DevicesPanel/DevicesPanel";
+import UploadForm from "./components/UploadForm/UploadForm";
 
-const SUPPORTED_REPORT_MAJOR_VERSION = '2';
+const SUPPORTED_REPORT_MAJOR_VERSION = "2";
 
 function isSupportedReportVersion(version?: string): boolean {
-  if (!version || typeof version !== 'string') return false;
-  return version.split('.')[0] === SUPPORTED_REPORT_MAJOR_VERSION;
+  if (!version || typeof version !== "string") return false;
+  return version.split(".")[0] === SUPPORTED_REPORT_MAJOR_VERSION;
 }
 
 function App() {
@@ -28,17 +28,19 @@ function App() {
   const handleDownloadJson = () => {
     if (!report) return;
     const blob = new Blob([JSON.stringify(report, null, 2)], {
-      type: 'application/json',
+      type: "application/json",
     });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'elevadr-report.json';
+    a.download = "elevadr-report.json";
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  const hasSupportedReportVersion = report ? isSupportedReportVersion(report.report_version) : false;
+  const hasSupportedReportVersion = report
+    ? isSupportedReportVersion(report.report_version)
+    : false;
 
   return (
     <div className="app-container">
@@ -55,7 +57,7 @@ function App() {
         setIsAnalyzing={setIsAnalyzing}
       />
 
-      {(!report && !isAnalyzing) && (
+      {!report && !isAnalyzing && (
         <div className="status-container">
           <div className="loading-container">
             <p className="loading-text">Awaiting input...</p>
@@ -71,7 +73,9 @@ function App() {
           <div className="loading-container">
             <p className="loading-text">Unsupported report version</p>
             <p className="error-details">
-              This report uses schema version "{report.report_version ?? 'unknown'}", but this frontend only supports 2.x reports.
+              This report uses schema version "
+              {report.report_version ?? "unknown"}", but this frontend only
+              supports 2.x reports.
             </p>
           </div>
         </div>
@@ -117,7 +121,10 @@ function App() {
             edgeDevices={report.modules.edge_devices}
             reportId={report.report_id}
           />
-          <OTServices data={report.modules.ot_services} reportId={report.report_id} />
+          <OTServices
+            data={report.modules.ot_services}
+            reportId={report.report_id}
+          />
         </div>
       )}
     </div>

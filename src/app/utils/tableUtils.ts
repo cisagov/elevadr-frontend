@@ -1,5 +1,5 @@
 export function getNestedValue(row: unknown, key: string): unknown {
-  if (!row || typeof row !== 'object') {
+  if (!row || typeof row !== "object") {
     return undefined;
   }
 
@@ -9,8 +9,8 @@ export function getNestedValue(row: unknown, key: string): unknown {
     return rowObject[key];
   }
 
-  return key.split('.').reduce<unknown>((current, part) => {
-    if (current && typeof current === 'object') {
+  return key.split(".").reduce<unknown>((current, part) => {
+    if (current && typeof current === "object") {
       return (current as Record<string, unknown>)[part];
     }
     return undefined;
@@ -19,17 +19,17 @@ export function getNestedValue(row: unknown, key: string): unknown {
 
 export function toFilterableString(value: unknown): string {
   if (value == null) {
-    return '';
+    return "";
   }
 
   if (Array.isArray(value)) {
-    return value.map(toFilterableString).join(' ');
+    return value.map(toFilterableString).join(" ");
   }
 
-  if (typeof value === 'object') {
+  if (typeof value === "object") {
     return Object.values(value as Record<string, unknown>)
       .map(toFilterableString)
-      .join(' ');
+      .join(" ");
   }
 
   return String(value);

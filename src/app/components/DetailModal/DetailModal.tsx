@@ -1,5 +1,5 @@
-import React from 'react';
-import './DetailModal.css';
+import React from "react";
+import "./DetailModal.css";
 
 interface DetailModalProps {
   isOpen: boolean;
@@ -8,7 +8,12 @@ interface DetailModalProps {
   children: React.ReactNode;
 }
 
-const DetailModal: React.FC<DetailModalProps> = ({ isOpen, title, onClose, children }) => {
+const DetailModal: React.FC<DetailModalProps> = ({
+  isOpen,
+  title,
+  onClose,
+  children,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -22,7 +27,11 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, title, onClose, child
       >
         <div className="detail-modal-header">
           <h2>{title}</h2>
-          <button type="button" className="detail-modal-close" onClick={onClose}>
+          <button
+            type="button"
+            className="detail-modal-close"
+            onClick={onClose}
+          >
             ×
           </button>
         </div>

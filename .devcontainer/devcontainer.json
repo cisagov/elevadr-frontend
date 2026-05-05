@@ -1,0 +1,28 @@
+{
+  "context": "..",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "dockerFile": "Dockerfile",
+  "forwardPorts": [
+    3000,
+    80
+  ],
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/.devcontainer/certs,target=/usr/local/share/ca-certificates/host,type=bind,consistency=cached"
+  ],
+  "name": "CRA + Nginx (dev)",
+  "overrideCommand": false,
+  "postCreateCommand": "./postCreate.sh",
+  "postStartCommand": "if [ -d /usr/local/share/ca-certificates/host ] && [ \"$(ls -A /usr/local/share/ca-certificates/host 2>/dev/null)\" ]; then cp -f /usr/local/share/ca-certificates/host/* /usr/local/share/ca-certificates/ 2>/dev/null || true; update-ca-certificates 2>/dev/null || true; fi",
+  "remoteUser": "node",
+  "workspaceFolder": "/workspace"
+}

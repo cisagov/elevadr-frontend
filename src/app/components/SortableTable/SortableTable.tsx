@@ -1,12 +1,12 @@
-import React, { useState, useMemo } from 'react';
-import './SortableTable.css';
-import { getNestedValue, toFilterableString } from '../../utils/tableUtils';
+import React, { useState, useMemo } from "react";
+import "./SortableTable.css";
+import { getNestedValue, toFilterableString } from "../../utils/tableUtils";
 
 export interface Column {
   key: string;
   label: string | React.ReactNode;
   sortable?: boolean;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
   render?: (value: any, row: any) => React.ReactNode;
   onClick?: (value: any, row: any) => void;
   clickable?: boolean;
@@ -21,33 +21,33 @@ interface SortableTableProps {
   onRowClick?: (row: any) => void;
 }
 
-type SortDirection = 'asc' | 'desc' | null;
+type SortDirection = "asc" | "desc" | null;
 
 const SortableTable: React.FC<SortableTableProps> = ({
   columns,
   data,
   filterable = false,
-  filterPlaceholder = 'Filter table...',
-  emptyMessage = 'No data available',
+  filterPlaceholder = "Filter table...",
+  emptyMessage = "No data available",
   onRowClick,
 }) => {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState("");
 
   const handleSort = (columnKey: string) => {
     if (sortColumn === columnKey) {
-      if (sortDirection === 'asc') {
-        setSortDirection('desc');
-      } else if (sortDirection === 'desc') {
+      if (sortDirection === "asc") {
+        setSortDirection("desc");
+      } else if (sortDirection === "desc") {
         setSortColumn(null);
         setSortDirection(null);
       } else {
-        setSortDirection('asc');
+        setSortDirection("asc");
       }
     } else {
       setSortColumn(columnKey);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
@@ -61,7 +61,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
         columns.some((col) => {
           const value = getNestedValue(row, col.key);
           return toFilterableString(value).toLowerCase().includes(searchText);
-        })
+        }),
       );
     }
 
@@ -72,15 +72,15 @@ const SortableTable: React.FC<SortableTableProps> = ({
         const bVal = getNestedValue(b, sortColumn);
 
         // Handle numeric sorting
-        if (typeof aVal === 'number' && typeof bVal === 'number') {
-          return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+        if (typeof aVal === "number" && typeof bVal === "number") {
+          return sortDirection === "asc" ? aVal - bVal : bVal - aVal;
         }
 
         // Handle string sorting
-        const aStr = String(aVal || '').toLowerCase();
-        const bStr = String(bVal || '').toLowerCase();
+        const aStr = String(aVal || "").toLowerCase();
+        const bStr = String(bVal || "").toLowerCase();
 
-        if (sortDirection === 'asc') {
+        if (sortDirection === "asc") {
           return aStr.localeCompare(bStr);
         } else {
           return bStr.localeCompare(aStr);
@@ -95,7 +95,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
     if (sortColumn !== columnKey) {
       return <span className="sort-icon">↕</span>;
     }
-    if (sortDirection === 'asc') {
+    if (sortDirection === "asc") {
       return <span className="sort-icon active">↑</span>;
     }
     return <span className="sort-icon active">↓</span>;
@@ -127,15 +127,15 @@ const SortableTable: React.FC<SortableTableProps> = ({
                 <th
                   key={col.key}
                   scope="col"
-                  className={col.sortable !== false ? 'sortable' : ''}
-                  style={{ textAlign: col.align || 'left' }}
+                  className={col.sortable !== false ? "sortable" : ""}
+                  style={{ textAlign: col.align || "left" }}
                   onClick={() => col.sortable !== false && handleSort(col.key)}
-                  role={col.sortable !== false ? 'button' : undefined}
+                  role={col.sortable !== false ? "button" : undefined}
                   aria-sort={
                     sortColumn === col.key
-                      ? sortDirection === 'asc'
-                        ? 'ascending'
-                        : 'descending'
+                      ? sortDirection === "asc"
+                        ? "ascending"
+                        : "descending"
                       : undefined
                   }
                 >
@@ -152,16 +152,18 @@ const SortableTable: React.FC<SortableTableProps> = ({
               filteredAndSortedData.map((row, idx) => (
                 <tr
                   key={idx}
-                  className={onRowClick ? 'clickable-row' : ''}
+                  className={onRowClick ? "clickable-row" : ""}
                   onClick={() => onRowClick?.(row)}
                 >
                   {columns.map((col) => {
-                    const isClickableCell = Boolean(col.onClick || col.clickable);
+                    const isClickableCell = Boolean(
+                      col.onClick || col.clickable,
+                    );
                     return (
                       <td
                         key={col.key}
-                        style={{ textAlign: col.align || 'left' }}
-                        className={isClickableCell ? 'clickable-cell' : ''}
+                        style={{ textAlign: col.align || "left" }}
+                        className={isClickableCell ? "clickable-cell" : ""}
                         onClick={(event) => {
                           if (col.onClick) {
                             event.stopPropagation();
@@ -171,7 +173,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
                       >
                         {col.render
                           ? col.render(getNestedValue(row, col.key), row)
-                          : String(getNestedValue(row, col.key) ?? '')}
+                          : String(getNestedValue(row, col.key) ?? "")}
                       </td>
                     );
                   })}

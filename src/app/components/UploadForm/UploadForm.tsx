@@ -1,9 +1,15 @@
-import React, { useState, FormEvent, useRef, SetStateAction, Dispatch } from 'react';
-import { ElevadrReport } from '../../types/Report';
-import './UploadForm.css';
+import React, {
+  useState,
+  FormEvent,
+  useRef,
+  SetStateAction,
+  Dispatch,
+} from "react";
+import { ElevadrReport } from "../../types/Report";
+import "./UploadForm.css";
 
-const BACKEND_HTTP = 'http://localhost:8000';
-const BACKEND_WS = 'ws://localhost:8000';
+const BACKEND_HTTP = "http://localhost:8000";
+const BACKEND_WS = "ws://localhost:8000";
 
 interface ProgressEvent {
   stage: string;
@@ -40,7 +46,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
     setProgress(null);
 
     if (!file) {
-      setError('Please select a PCAP file to upload.');
+      setError("Please select a PCAP file to upload.");
       return;
     }
 
@@ -59,32 +65,39 @@ const UploadForm: React.FC<UploadFormProps> = ({
     };
 
     ws.onerror = () => {
-      console.warn('Progress WebSocket error - continuing without progress updates');
+      console.warn(
+        "Progress WebSocket error - continuing without progress updates",
+      );
     };
 
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
 
-      const response = await fetch(`${BACKEND_HTTP}/analyze?session_id=${sessionId}`, {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch(
+        `${BACKEND_HTTP}/analyze?session_id=${sessionId}`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       if (!response.ok) {
         const text = await response.text();
-        throw new Error(text || `Analysis failed with status ${response.status}`);
+        throw new Error(
+          text || `Analysis failed with status ${response.status}`,
+        );
       }
 
       const data = (await response.json()) as ElevadrReport;
 
       if (!data.executive_summary || !data.modules) {
-        throw new Error('Invalid report format returned from backend.');
+        throw new Error("Invalid report format returned from backend.");
       }
 
       onReportLoaded(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to run analysis');
+      setError(err instanceof Error ? err.message : "Failed to run analysis");
     } finally {
       setIsAnalyzing?.(false);
       wsRef.current?.close();
@@ -107,7 +120,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
         />
         <div className="form-actions">
           <button type="submit" disabled={!file || isAnalyzing}>
-            {isAnalyzing ? 'Analyzing...' : 'Run Analysis'}
+            {isAnalyzing ? "Analyzing..." : "Run Analysis"}
           </button>
           <button
             type="button"
@@ -120,13 +133,17 @@ const UploadForm: React.FC<UploadFormProps> = ({
         </div>
       </form>
 
-
       {/* Progress bar (shown only during PCAP analysis) */}
       {isAnalyzing && (
         <div className="upload-status">
-          <p className="loading-text">{progress?.message ?? 'Starting analysis...'}</p>
+          <p className="loading-text">
+            {progress?.message ?? "Starting analysis..."}
+          </p>
           <div className="progress-bar-track">
-            <div className="progress-bar-fill" style={{ width: `${progress?.progress ?? 0}%` }} />
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${progress?.progress ?? 0}%` }}
+            />
           </div>
           <p className="progress-percent">{progress?.progress ?? 0}%</p>
         </div>

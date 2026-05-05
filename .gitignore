@@ -195,3 +195,7 @@ zeeks/
 
 # AI
 claude.md
+
+.devcontainer/certs/*
+
+**/node_modules

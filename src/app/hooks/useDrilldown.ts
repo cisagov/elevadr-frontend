@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export interface UseDrilldownResult<TData, TKey> {
   selectedKey: TKey | null;
@@ -27,7 +27,7 @@ export function useDrilldown<TData, TKey = string>(
       const result = await fetcher(key);
       setData(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load drilldown');
+      setError(err instanceof Error ? err.message : "Failed to load drilldown");
     } finally {
       setIsLoading(false);
     }

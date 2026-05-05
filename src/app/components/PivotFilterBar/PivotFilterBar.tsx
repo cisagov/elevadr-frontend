@@ -1,6 +1,6 @@
-import React from 'react';
-import './PivotFilterBar.css';
-import { DrilldownFilters } from '../../hooks/usePivotDrilldown';
+import React from "react";
+import "./PivotFilterBar.css";
+import { DrilldownFilters } from "../../hooks/usePivotDrilldown";
 
 interface PivotFilterBarProps {
   filters: DrilldownFilters | null;
@@ -8,13 +8,16 @@ interface PivotFilterBarProps {
 }
 
 const formatValue = (value: string | number | boolean | null | undefined) => {
-  if (value === null || value === undefined || value === '') {
-    return 'Any';
+  if (value === null || value === undefined || value === "") {
+    return "Any";
   }
   return String(value);
 };
 
-const PivotFilterBar: React.FC<PivotFilterBarProps> = ({ filters, onRemoveFilter }) => {
+const PivotFilterBar: React.FC<PivotFilterBarProps> = ({
+  filters,
+  onRemoveFilter,
+}) => {
   if (!filters || Object.keys(filters).length === 0) {
     return null;
   }

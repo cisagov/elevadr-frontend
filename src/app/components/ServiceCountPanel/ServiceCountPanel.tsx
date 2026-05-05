@@ -1,27 +1,40 @@
-import React from 'react';
-import './ServiceCountPanel.css';
-import Panel from '../Panel/Panel';
-import SortableTable, { Column } from '../SortableTable/SortableTable';
-import { ElevadrReport, ServiceCountPanel as ServiceCountPanelType, ServiceConnectionDetail } from '../../types/Report';
-import InfoTooltip from '../InfoTooltip/InfoTooltip';
-import DetailModal from '../DetailModal/DetailModal';
-import { useDrilldown } from '../../hooks/useDrilldown';
-import { fetchServiceDrilldown } from '../../services/drilldownService';
+import React from "react";
+import "./ServiceCountPanel.css";
+import Panel from "../Panel/Panel";
+import SortableTable, { Column } from "../SortableTable/SortableTable";
+import {
+  ElevadrReport,
+  ServiceCountPanel as ServiceCountPanelType,
+  ServiceConnectionDetail,
+} from "../../types/Report";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import DetailModal from "../DetailModal/DetailModal";
+import { useDrilldown } from "../../hooks/useDrilldown";
+import { fetchServiceDrilldown } from "../../services/drilldownService";
 
 interface ServiceCountPanelProps {
   data: ServiceCountPanelType;
-  reportId: ElevadrReport['report_id'];
+  reportId: ElevadrReport["report_id"];
 }
 
-const ServiceCountPanel: React.FC<ServiceCountPanelProps> = ({ data, reportId }) => {
-  const drilldown = useDrilldown((serviceName: string) => fetchServiceDrilldown(reportId, serviceName));
+const ServiceCountPanel: React.FC<ServiceCountPanelProps> = ({
+  data,
+  reportId,
+}) => {
+  const drilldown = useDrilldown((serviceName: string) =>
+    fetchServiceDrilldown(reportId, serviceName),
+  );
   const knownServicesData = data.service_connections_count.known_services.map(
-    (item) => ({ service: item.name, port: item.port, connections: item.count })
+    (item) => ({
+      service: item.name,
+      port: item.port,
+      connections: item.count,
+    }),
   );
 
-  const unknownServicesData = Object.entries(data.service_connections_count.unknown_services).map(
-    ([service, connections]) => ({ service, connections })
-  );
+  const unknownServicesData = Object.entries(
+    data.service_connections_count.unknown_services,
+  ).map(([service, connections]) => ({ service, connections }));
 
   const handleServiceClick = async (serviceName: string) => {
     await drilldown.open(serviceName);
@@ -33,8 +46,8 @@ const ServiceCountPanel: React.FC<ServiceCountPanelProps> = ({ data, reportId })
 
   const knownServiceColumns: Column[] = [
     {
-      key: 'service',
-      label: 'Service Name',
+      key: "service",
+      label: "Service Name",
       sortable: true,
       clickable: true,
       onClick: (value) => handleServiceClick(value),
@@ -44,19 +57,19 @@ const ServiceCountPanel: React.FC<ServiceCountPanelProps> = ({ data, reportId })
         </button>
       ),
     },
-    { key: 'port', label: 'Port', sortable: true, align: 'right' },
+    { key: "port", label: "Port", sortable: true, align: "right" },
     {
-      key: 'connections',
-      label: 'Connections',
+      key: "connections",
+      label: "Connections",
       sortable: true,
-      align: 'right'
+      align: "right",
     },
   ];
 
   const unknownServiceColumns: Column[] = [
     {
-      key: 'service',
-      label: 'Service Name',
+      key: "service",
+      label: "Service Name",
       sortable: true,
       clickable: true,
       onClick: (value) => handleServiceClick(value),
@@ -67,27 +80,41 @@ const ServiceCountPanel: React.FC<ServiceCountPanelProps> = ({ data, reportId })
       ),
     },
     {
-      key: 'connections',
-      label: 'Connections',
+      key: "connections",
+      label: "Connections",
       sortable: true,
-      align: 'right'
+      align: "right",
     },
   ];
 
   const detailColumns: Column[] = [
-    { key: 'src_endpoint.ip', label: 'Source IP', sortable: true },
-    { key: 'src_endpoint.port', label: 'Src Port', sortable: true, align: 'right' },
-    { key: 'dst_endpoint.ip', label: 'Destination IP', sortable: true },
-    { key: 'dst_endpoint.port', label: 'Dst Port', sortable: true, align: 'right' },
-    { key: 'connection_info.protocol_name', label: 'Protocol', sortable: true },
-    { key: 'connection_info.direction_name', label: 'Direction', sortable: true },
-    { key: 'state', label: 'State', sortable: true },
-    { key: 'history', label: 'History', sortable: true },
+    { key: "src_endpoint.ip", label: "Source IP", sortable: true },
     {
-      key: 'success',
-      label: 'Success',
+      key: "src_endpoint.port",
+      label: "Src Port",
       sortable: true,
-      render: (value) => (value ? 'Yes' : 'No'),
+      align: "right",
+    },
+    { key: "dst_endpoint.ip", label: "Destination IP", sortable: true },
+    {
+      key: "dst_endpoint.port",
+      label: "Dst Port",
+      sortable: true,
+      align: "right",
+    },
+    { key: "connection_info.protocol_name", label: "Protocol", sortable: true },
+    {
+      key: "connection_info.direction_name",
+      label: "Direction",
+      sortable: true,
+    },
+    { key: "state", label: "State", sortable: true },
+    { key: "history", label: "History", sortable: true },
+    {
+      key: "success",
+      label: "Success",
+      sortable: true,
+      render: (value) => (value ? "Yes" : "No"),
     },
   ];
 
@@ -97,7 +124,7 @@ const ServiceCountPanel: React.FC<ServiceCountPanelProps> = ({ data, reportId })
     <Panel
       id="service-count-panel"
       title={
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span>Service Count</span>
           <InfoTooltip text="Total unique services detected and their connection frequencies, separated into known and unknown services." />
         </div>
@@ -142,7 +169,11 @@ const ServiceCountPanel: React.FC<ServiceCountPanelProps> = ({ data, reportId })
       </div>
       <DetailModal
         isOpen={Boolean(drilldown.selectedKey)}
-        title={drilldown.selectedKey ? `Service Details: ${drilldown.selectedKey}` : 'Service Details'}
+        title={
+          drilldown.selectedKey
+            ? `Service Details: ${drilldown.selectedKey}`
+            : "Service Details"
+        }
         onClose={closeModal}
       >
         {drilldown.isLoading && <p>Loading service connections...</p>}
@@ -150,7 +181,9 @@ const ServiceCountPanel: React.FC<ServiceCountPanelProps> = ({ data, reportId })
         {!drilldown.isLoading && !drilldown.error && (
           <SortableTable
             columns={detailColumns}
-            data={drilldown.data?.connections || ([] as ServiceConnectionDetail[])}
+            data={
+              drilldown.data?.connections || ([] as ServiceConnectionDetail[])
+            }
             filterable={true}
             filterPlaceholder="Search service connection details..."
             emptyMessage="No connections found for this service"

@@ -1,14 +1,20 @@
-import React from 'react';
-import './OTServices.css';
-import Panel from '../Panel/Panel';
-import SortableTable, { Column } from '../SortableTable/SortableTable';
-import { OTService, ServiceConnectionDetail } from '../../types/Report';
-import InfoTooltip from '../InfoTooltip/InfoTooltip';
-import DetailModal from '../DetailModal/DetailModal';
-import { usePivotDrilldown } from '../../hooks/usePivotDrilldown';
-import { fetchFilteredConnections, fetchFilteredServices } from '../../services/drilldownService';
-import DrilldownTable, { buildOtServiceRows, connectionDetailColumns } from '../DrilldownTable/DrilldownTable';
-import PivotFilterBar from '../PivotFilterBar/PivotFilterBar';
+import React from "react";
+import "./OTServices.css";
+import Panel from "../Panel/Panel";
+import SortableTable, { Column } from "../SortableTable/SortableTable";
+import { OTService, ServiceConnectionDetail } from "../../types/Report";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import DetailModal from "../DetailModal/DetailModal";
+import { usePivotDrilldown } from "../../hooks/usePivotDrilldown";
+import {
+  fetchFilteredConnections,
+  fetchFilteredServices,
+} from "../../services/drilldownService";
+import DrilldownTable, {
+  buildOtServiceRows,
+  connectionDetailColumns,
+} from "../DrilldownTable/DrilldownTable";
+import PivotFilterBar from "../PivotFilterBar/PivotFilterBar";
 
 interface OTServicesProps {
   data: OTService[];
@@ -16,7 +22,9 @@ interface OTServicesProps {
 }
 
 const buildConnectionPivotColumns = (
-  onPivot: (filters: Record<string, string | number | boolean | null | undefined>) => void,
+  onPivot: (
+    filters: Record<string, string | number | boolean | null | undefined>,
+  ) => void,
 ): Column[] => [
   {
     ...connectionDetailColumns[0],
@@ -24,7 +32,14 @@ const buildConnectionPivotColumns = (
     onClick: (value) => {
       if (value) onPivot({ src_ip: String(value) });
     },
-    render: (value) => <button type="button" className="clickable-service-link clickable-cell-text">{value}</button>,
+    render: (value) => (
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value}
+      </button>
+    ),
   },
   {
     ...connectionDetailColumns[1],
@@ -32,18 +47,28 @@ const buildConnectionPivotColumns = (
     onClick: (value) => {
       if (value) onPivot({ src_subnet: String(value) });
     },
-    render: (value) => <button type="button" className="clickable-service-link clickable-cell-text">{value}</button>,
+    render: (value) => (
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value}
+      </button>
+    ),
   },
   {
     ...connectionDetailColumns[2],
     clickable: true,
     onClick: (_value, row: ServiceConnectionDetail) => {
-      const manufacturer = row['src_device.manufacturer'];
+      const manufacturer = row["src_device.manufacturer"];
       if (manufacturer) onPivot({ manufacturer: String(manufacturer) });
     },
     render: (value) => (
-      <button type="button" className="clickable-service-link clickable-cell-text">
-        {value || 'Unknown'}
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value || "Unknown"}
       </button>
     ),
   },
@@ -54,7 +79,14 @@ const buildConnectionPivotColumns = (
     onClick: (value) => {
       if (value) onPivot({ dst_ip: String(value) });
     },
-    render: (value) => <button type="button" className="clickable-service-link clickable-cell-text">{value}</button>,
+    render: (value) => (
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value}
+      </button>
+    ),
   },
   {
     ...connectionDetailColumns[5],
@@ -62,18 +94,28 @@ const buildConnectionPivotColumns = (
     onClick: (value) => {
       if (value) onPivot({ dst_subnet: String(value) });
     },
-    render: (value) => <button type="button" className="clickable-service-link clickable-cell-text">{value}</button>,
+    render: (value) => (
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value}
+      </button>
+    ),
   },
   {
     ...connectionDetailColumns[6],
     clickable: true,
     onClick: (_value, row: ServiceConnectionDetail) => {
-      const manufacturer = row['dst_device.manufacturer'];
+      const manufacturer = row["dst_device.manufacturer"];
       if (manufacturer) onPivot({ manufacturer: String(manufacturer) });
     },
     render: (value) => (
-      <button type="button" className="clickable-service-link clickable-cell-text">
-        {value || 'Unknown'}
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value || "Unknown"}
       </button>
     ),
   },
@@ -84,7 +126,14 @@ const buildConnectionPivotColumns = (
     onClick: (value) => {
       if (value) onPivot({ service_name: String(value) });
     },
-    render: (value) => <button type="button" className="clickable-service-link clickable-cell-text">{value}</button>,
+    render: (value) => (
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value}
+      </button>
+    ),
   },
   connectionDetailColumns[9],
   {
@@ -93,7 +142,14 @@ const buildConnectionPivotColumns = (
     onClick: (value) => {
       if (value) onPivot({ direction: String(value) });
     },
-    render: (value) => <button type="button" className="clickable-service-link clickable-cell-text">{value}</button>,
+    render: (value) => (
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value}
+      </button>
+    ),
   },
   {
     ...connectionDetailColumns[11],
@@ -101,17 +157,26 @@ const buildConnectionPivotColumns = (
     onClick: (value) => {
       if (value) onPivot({ connection_state: String(value) });
     },
-    render: (value) => <button type="button" className="clickable-service-link clickable-cell-text">{value}</button>,
+    render: (value) => (
+      <button
+        type="button"
+        className="clickable-service-link clickable-cell-text"
+      >
+        {value}
+      </button>
+    ),
   },
   connectionDetailColumns[12],
 ];
 
 const OTServices: React.FC<OTServicesProps> = ({ data, reportId }) => {
-  const servicesDrilldown = usePivotDrilldown((filters: Record<string, string | number | boolean | null | undefined>) =>
-    fetchFilteredServices(reportId, filters)
+  const servicesDrilldown = usePivotDrilldown(
+    (filters: Record<string, string | number | boolean | null | undefined>) =>
+      fetchFilteredServices(reportId, filters),
   );
-  const connectionsDrilldown = usePivotDrilldown((filters: Record<string, string | number | boolean | null | undefined>) =>
-    fetchFilteredConnections(reportId, filters)
+  const connectionsDrilldown = usePivotDrilldown(
+    (filters: Record<string, string | number | boolean | null | undefined>) =>
+      fetchFilteredConnections(reportId, filters),
   );
   const tableData = buildOtServiceRows(data);
 
@@ -125,9 +190,9 @@ const OTServices: React.FC<OTServicesProps> = ({ data, reportId }) => {
 
   const columns: Column[] = [
     {
-      key: 'name',
+      key: "name",
       label: (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span>Service Name</span>
           <InfoTooltip text="The name of the detected OT service." />
         </div>
@@ -136,15 +201,18 @@ const OTServices: React.FC<OTServicesProps> = ({ data, reportId }) => {
       clickable: true,
       onClick: (value) => openServiceConnections(String(value)),
       render: (value) => (
-        <button type="button" className="clickable-service-link service-name-cell clickable-cell-text">
+        <button
+          type="button"
+          className="clickable-service-link service-name-cell clickable-cell-text"
+        >
           {value}
         </button>
       ),
     },
     {
-      key: 'description',
+      key: "description",
       label: (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span>Description</span>
           <InfoTooltip text="A brief description of the OT service and its function." />
         </div>
@@ -153,9 +221,9 @@ const OTServices: React.FC<OTServicesProps> = ({ data, reportId }) => {
       render: (value) => <span className="description-cell">{value}</span>,
     },
     {
-      key: 'informationCategories',
+      key: "informationCategories",
       label: (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span>Information Categories</span>
           <InfoTooltip text="Categories of information associated with the service, such as configuration or operational data." />
         </div>
@@ -164,9 +232,9 @@ const OTServices: React.FC<OTServicesProps> = ({ data, reportId }) => {
       render: (value) => <span className="category-cell">{value}</span>,
     },
     {
-      key: 'riskCategories',
+      key: "riskCategories",
       label: (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span>Risk Categories</span>
           <InfoTooltip text="Potential risk categories associated with the service, if any." />
         </div>
@@ -174,12 +242,17 @@ const OTServices: React.FC<OTServicesProps> = ({ data, reportId }) => {
       sortable: true,
       clickable: true,
       render: (_value, row) => {
-        const riskCategories = Array.isArray(row.riskCategoryList) ? row.riskCategoryList : [];
+        const riskCategories = Array.isArray(row.riskCategoryList)
+          ? row.riskCategoryList
+          : [];
         if (riskCategories.length === 0) {
           return <span className="no-risk">None</span>;
         }
         return (
-          <span className="category-cell" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          <span
+            className="category-cell"
+            style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}
+          >
             {riskCategories.map((category: string) => (
               <button
                 key={category}
@@ -209,7 +282,7 @@ const OTServices: React.FC<OTServicesProps> = ({ data, reportId }) => {
     <Panel
       id="ot-services-panel"
       title={
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span>OT Services</span>
           <InfoTooltip text="Industrial protocols and OT-specific services detected with security descriptions and risk assessments. Click services, risk categories, or drilldown rows to continue pivoting." />
         </div>
@@ -229,7 +302,9 @@ const OTServices: React.FC<OTServicesProps> = ({ data, reportId }) => {
         title="Service Connection Details"
         onClose={connectionsDrilldown.close}
       >
-        {connectionsDrilldown.isLoading && <p>Loading service connections...</p>}
+        {connectionsDrilldown.isLoading && (
+          <p>Loading service connections...</p>
+        )}
         {connectionsDrilldown.error && <p>{connectionsDrilldown.error}</p>}
         {!connectionsDrilldown.isLoading && !connectionsDrilldown.error && (
           <>

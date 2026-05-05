@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { ElevadrReport } from '../types/Report';
+import { useState, useEffect } from "react";
+import { ElevadrReport } from "../types/Report";
 
 interface ReportState {
   report: ElevadrReport | null;
@@ -19,17 +19,19 @@ export const useReportWatcher = (): ReportState => {
       try {
         // In development, we'll load from the public folder
         // In production with container, this would watch the /input directory
-        const response = await fetch('/input/report.json');
+        const response = await fetch("/input/report.json");
 
         if (!response.ok) {
-          throw new Error('No report file found');
+          throw new Error("No report file found");
         }
 
         const data = await response.json();
 
         // Validate report structure
         if (!data.executive_summary || !data.modules) {
-          throw new Error('Invalid report format - please provide an eleVADR report file');
+          throw new Error(
+            "Invalid report format - please provide an eleVADR report file",
+          );
         }
 
         setState({
@@ -41,7 +43,7 @@ export const useReportWatcher = (): ReportState => {
         setState({
           report: null,
           loading: false,
-          error: err instanceof Error ? err.message : 'Failed to load report',
+          error: err instanceof Error ? err.message : "Failed to load report",
         });
       }
     };

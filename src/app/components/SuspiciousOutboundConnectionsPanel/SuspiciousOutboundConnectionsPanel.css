@@ -25,13 +25,13 @@
 }
 
 .ip-cell {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   font-size: 0.9rem;
   white-space: nowrap;
 }
 
 .port-cell {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   text-align: center;
   font-weight: 600;
 }
