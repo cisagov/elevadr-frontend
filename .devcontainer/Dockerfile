@@ -24,7 +24,8 @@ RUN apk add --no-cache \
     nginx \
     build-base \
     docker-compose-plugin \
-    sudo
+    sudo \
+    ssh
 
 USER node
 WORKDIR /workspace
