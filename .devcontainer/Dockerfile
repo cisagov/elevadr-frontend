@@ -23,11 +23,17 @@ RUN apk add --no-cache \
     py3-pip \
     nginx \
     build-base \
-    docker-compose-plugin \
+    docker-compose \
     sudo \
-    ssh
+    openssh
 
 USER node
+
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
+RUN echo "export PATH=\$HOME/.local/bin:\$PATH" >> ~/.bashrc
+
 WORKDIR /workspace
 EXPOSE 3000 80
+
 CMD ["sleep", "infinity"]

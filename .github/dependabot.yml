@@ -34,7 +34,6 @@ updates:
       - dependency-name: cisagov/setup-env-github-action
       - dependency-name: crazy-max/ghaction-github-labeler
       - dependency-name: github/codeql-action
-      - dependency-name: hashicorp/setup-packer
       - dependency-name: mxschmitt/action-tmate
     labels:
       # dependabot default we need to replicate

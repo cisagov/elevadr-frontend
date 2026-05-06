@@ -34,10 +34,6 @@ javascript:
       - any-glob-to-any-file:
           - "**/*.js"
           - "**/*.jsx"
-packer:
-  - changed-files:
-      - any-glob-to-any-file:
-          - "**/*.pkr.hcl"
 
 shell script:
   - changed-files:
@@ -52,13 +48,9 @@ test:
   - changed-files:
       - any-glob-to-any-file:
           # Add any test-related files or paths.
-          - .ansible-lint
-          - .bandit.yml
-          - .flake8
-          - .isort.cfg
           - .mdl_config.yaml
           - .yamllint
-          - compose.yml
+          - docker-compose.yml
           - tests/**
 typescript:
   - changed-files:

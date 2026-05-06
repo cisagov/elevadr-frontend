@@ -143,9 +143,6 @@ jobs:
             ${{ env.PRE_COMMIT_CACHE_DIR }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
-      - uses: hashicorp/setup-packer@v3
-        with:
-          version: ${{ steps.setup-env.outputs.packer-version }}
       - name: Install dependencies
         run: npm ci
       - name: Run ESLint

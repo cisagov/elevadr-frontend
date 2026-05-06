@@ -5,10 +5,6 @@ ci:
   # Autoupdate hooks weekly (this is the default).
   autoupdate_schedule: weekly
 
-default_language_version:
-  # force all unspecified python hooks to run python3
-  python: python
-
 repos:
   # Check the pre-commit configuration
   - repo: meta
@@ -27,11 +23,7 @@ repos:
       - id: check-toml
       - id: check-vcs-permalinks
       - id: check-xml
-      - id: debug-statements
       - id: destroyed-symlinks
-      - id: detect-aws-credentials
-        args:
-          - --allow-missing-credentials
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: mixed-line-ending
@@ -41,7 +33,6 @@ repos:
         exclude: ^(package-lock\.json|package\.json|tsconfig\.json)$
         args:
           - --autofix
-      - id: requirements-txt-fixer
       - id: trailing-whitespace
 
   # Text file hooks
@@ -75,12 +66,6 @@ repos:
     hooks:
       - id: validate_manifest
 
-  # Nix hooks
-  - repo: https://github.com/nix-community/nixpkgs-fmt
-    rev: v1.3.0
-    hooks:
-      - id: nixpkgs-fmt
-
   # Shell script hooks
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.13.0-1
@@ -105,20 +90,8 @@ repos:
     hooks:
       - id: shellcheck
 
-  - repo: https://github.com/PyCQA/isort
-    rev: 8.0.1
-    hooks:
-      - id: isort
-
   # Docker hooks
   - repo: https://github.com/IamTheFij/docker-pre-commit
     rev: v3.0.1
     hooks:
       - id: docker-compose-check
-
-  # Packer hooks
-  - repo: https://github.com/cisagov/pre-commit-packer
-    rev: v0.3.1
-    hooks:
-      - id: packer_fmt
-      - id: packer_validate

@@ -197,5 +197,6 @@ zeeks/
 claude.md
 
 .devcontainer/certs/*
+!.devcontainer/certs/.gitkeep
 
 **/node_modules
