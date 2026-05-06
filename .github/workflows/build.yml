@@ -409,7 +409,7 @@ jobs:
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
       - name: Install package.json
-        run: npm install     
+        run: npm install
       - name: Install dependencies
         run: npm ci
       - name: Download Docker image artifact

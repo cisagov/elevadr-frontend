@@ -22,9 +22,7 @@ describe("App", () => {
 
     expect(screen.getByText("eleVADR Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Awaiting input...")).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Run Analysis" }),
-    ).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Run Analysis" })).toBeDisabled();
   });
 
   it("uploads a pcap and renders dashboard panels from backend data", async () => {
@@ -43,9 +41,7 @@ describe("App", () => {
     fireEvent.change(input, { target: { files: [file] } });
     fireEvent.click(screen.getByRole("button", { name: "Run Analysis" }));
 
-    expect(
-      await screen.findByText("Executive Summary"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("Executive Summary")).toBeInTheDocument();
     expect(screen.getByText("Service Panel")).toBeInTheDocument();
     expect(screen.getByText("Service Count")).toBeInTheDocument();
     const alertElement = screen.getByText(/Detected/i);

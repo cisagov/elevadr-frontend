@@ -33,7 +33,11 @@ describe("drilldownService", () => {
   it("omits empty filter values when building filtered connection queries", async () => {
     const fetchMock = jest.spyOn(globalThis, "fetch").mockResolvedValue({
       ok: true,
-      json: async () => ({ report_id: "report-123", filters: {}, connections: [] }),
+      json: async () => ({
+        report_id: "report-123",
+        filters: {},
+        connections: [],
+      }),
     } as Response);
 
     await fetchFilteredConnections("report-123", {

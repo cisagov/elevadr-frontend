@@ -1,5 +1,11 @@
 import React from "react";
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { useDrilldown } from "../app/hooks/useDrilldown";
 
 interface TestData {
@@ -31,7 +37,9 @@ function Harness({ fetcher }: HarnessProps): JSX.Element {
 
 describe("useDrilldown", () => {
   it("loads drilldown data for the selected key", async () => {
-    const fetcher = jest.fn(async (key: string) => ({ value: `payload:${key}` }));
+    const fetcher = jest.fn(async (key: string) => ({
+      value: `payload:${key}`,
+    }));
 
     render(<Harness fetcher={fetcher} />);
     fireEvent.click(screen.getByRole("button", { name: "Open" }));

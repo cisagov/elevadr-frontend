@@ -18,13 +18,17 @@ describe("ExecutiveSummary", () => {
     const infoButtons = screen.getAllByRole("button", { name: "Information" });
     fireEvent.mouseEnter(infoButtons[2]);
 
-
-    expect(screen.getByText((content, element) => {
-      const hasText = element?.textContent === "Detected risky services on the network.";
-      const isDeepest = element?.firstElementChild === null || 
-                        element?.firstElementChild?.textContent !== "Detected risky services on the network.";
-      return hasText && isDeepest;
-    })).toBeInTheDocument();
+    expect(
+      screen.getByText((content, element) => {
+        const hasText =
+          element?.textContent === "Detected risky services on the network.";
+        const isDeepest =
+          element?.firstElementChild === null ||
+          element?.firstElementChild?.textContent !==
+            "Detected risky services on the network.";
+        return hasText && isDeepest;
+      }),
+    ).toBeInTheDocument();
   });
 
   it("scrolls to the mapped panel when an alert link is clicked", () => {
@@ -53,9 +57,9 @@ describe("ExecutiveSummary", () => {
   it("renders the panel empty state when no alerts are present", () => {
     render(<ExecutiveSummary data={{}} />);
 
-      const toggleButton = screen.getByText('+')
+    const toggleButton = screen.getByText("+");
     // Note: if it doesn't have a name, use screen.getByText('+')
-  
+
     fireEvent.click(toggleButton);
 
     expect(screen.getByText("No Results")).toBeInTheDocument();
