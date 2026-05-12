@@ -4,6 +4,7 @@ import Panel from "../Panel/Panel";
 import SortableTable, { Column } from "../SortableTable/SortableTable";
 import {
   ElevadrReport,
+  ServiceConnectionDetail,
   ServiceRiskBreakdownPanel as ServiceRiskBreakdownPanelType,
 } from "../../types/Report";
 import {
@@ -26,8 +27,6 @@ interface ServiceRiskBreakdownPanelProps {
   reportId: ElevadrReport["report_id"];
 }
 
-const COLORS = ["#005ea2", "#0076d6", "#2491ff", "#73b3ff", "#a9d4ff"];
-
 const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
   data,
   reportId,
@@ -35,6 +34,7 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
   const drilldown = useDrilldown((serviceName: string) =>
     fetchServiceDrilldown(reportId, serviceName),
   );
+
   const chartData = Object.entries(data.risk_category_counts).map(
     ([category, count]) => ({
       category,
@@ -59,23 +59,23 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
     drilldown.close();
   };
 
-  const tableColumns: Column[] = [
+  const tableColumns: Column<string>[] = [
     { key: "category", label: "Category", sortable: true },
     {
       key: "service",
       label: "Service",
       sortable: true,
       clickable: true,
-      onClick: (value) => handleServiceClick(value),
+      onClick: (value) => handleServiceClick(String(value)),
       render: (value) => (
         <button type="button" className="clickable-service-link">
-          {value}
+          {String(value)}
         </button>
       ),
     },
   ];
 
-  const detailColumns: Column[] = [
+  const detailColumns: Column<string | number | boolean | string[] | null>[] = [
     { key: "src_endpoint.ip", label: "Source IP", sortable: true },
     {
       key: "src_endpoint.port",
@@ -106,7 +106,18 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
     },
   ];
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: {
+      value?: string | number;
+      payload: {
+        category: string;
+      };
+    }[];
+  }) => {
     if (active && payload && payload.length) {
       const category = payload[0].payload.category;
       const services = data.risk_category_services[category] || [];
@@ -135,7 +146,7 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
 
   return (
     <Panel
-      id="service-risk-breakdown-panel" // Added ID for navigation
+      id="service-risk-breakdown-panel"
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span>Service Risk Breakdown</span>
@@ -152,6 +163,7 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
               <InfoTooltip text="A visual representation of the number of services falling into each risk category." />
             </div>
           </h3>
+
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={chartData}
@@ -168,10 +180,14 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
               />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="count">
-                {chartData.map((entry, index) => (
+                {chartData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
+                    fill={
+                      ["#005ea2", "#0076d6", "#2491ff", "#73b3ff", "#a9d4ff"][
+                        index % 5
+                      ]
+                    }
                   />
                 ))}
               </Bar>
@@ -186,7 +202,8 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
               <InfoTooltip text="A detailed list of services grouped by their assigned risk category." />
             </div>
           </h3>
-          <SortableTable
+
+          <SortableTable<string, { category: string; service: string }>
             columns={tableColumns}
             data={tableData}
             filterable={true}
@@ -195,6 +212,7 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
           />
         </div>
       </div>
+
       <DetailModal
         isOpen={Boolean(drilldown.selectedKey)}
         title={
@@ -207,7 +225,10 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
         {drilldown.isLoading && <p>Loading service connections...</p>}
         {drilldown.error && <p>{drilldown.error}</p>}
         {!drilldown.isLoading && !drilldown.error && (
-          <SortableTable
+          <SortableTable<
+            string | number | boolean | string[] | null,
+            ServiceConnectionDetail
+          >
             columns={detailColumns}
             data={drilldown.data?.connections || []}
             filterable={true}

@@ -31,7 +31,7 @@ const buildDeviceColumns = (
   onSubnetClick: (subnet: string) => void,
   onIncomingServiceClick: (service: string) => void,
   onSentServiceClick: (service: string) => void,
-): Column[] => [
+): Column<unknown, Device>[] => [
   {
     key: "manufacturer",
     label: (
@@ -50,7 +50,7 @@ const buildDeviceColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value || "Unknown"}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -167,7 +167,7 @@ const buildConnectionPivotColumns = (
   onPivot: (
     filters: Record<string, string | number | boolean | null | undefined>,
   ) => void,
-): Column[] => [
+): Column<unknown, ServiceConnectionDetail>[] => [
   {
     ...connectionDetailColumns[0],
     clickable: true,
@@ -179,7 +179,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -194,7 +194,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -210,7 +210,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value || "Unknown"}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -226,7 +226,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -241,7 +241,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -257,7 +257,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value || "Unknown"}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -273,7 +273,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -289,7 +289,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -304,7 +304,7 @@ const buildConnectionPivotColumns = (
         type="button"
         className="clickable-service-link clickable-cell-text"
       >
-        {value}
+        {String(value ?? "Unknown")}
       </button>
     ),
   },
@@ -357,7 +357,6 @@ const DevicesPanel: React.FC<DevicesPanelProps> = ({
     otDevices.length === 0 &&
     itDevices.length === 0 &&
     edgeDevices.length === 0;
-
   return (
     <Panel
       id="devices-panel"

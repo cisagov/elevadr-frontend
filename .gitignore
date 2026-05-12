@@ -200,3 +200,5 @@ claude.md
 !.devcontainer/certs/.gitkeep
 
 **/node_modules
+
+**/.pnpm-store

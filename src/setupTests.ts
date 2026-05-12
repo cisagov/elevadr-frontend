@@ -1,9 +1,15 @@
 import "@testing-library/jest-dom";
 
 global.ResizeObserver = class ResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
+  observe = () => {
+    /* no-op */
+  };
+  unobserve = () => {
+    /* no-op */
+  };
+  disconnect = () => {
+    /* no-op */
+  };
 };
 
 class MockWebSocket {
@@ -34,11 +40,11 @@ Object.defineProperty(globalThis, "crypto", {
 });
 
 Object.defineProperty(globalThis, "scrollTo", {
-  value: jest.fn<void, []>(),
+  value: jest.fn(),
   writable: true,
 });
 
 Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
-  value: jest.fn<void, [ScrollIntoViewOptions | boolean | undefined]>(),
+  value: jest.fn(),
   writable: true,
 });

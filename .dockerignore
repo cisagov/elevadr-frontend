@@ -53,3 +53,5 @@ test_*.py
 
 # Logs
 *.log
+
+*.min.css.map

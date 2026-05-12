@@ -41,8 +41,9 @@ defaults:
 env:
   PRE_COMMIT_CACHE_DIR: ~/.cache/pre-commit
   RUN_TMATE: ${{ secrets.RUN_TMATE }}
-  NPM_CACHE_DIR: ~/.npm
+  PNPM_CACHE_DIR: ~/.cache/pnpm
   NODE_VERSION: 20
+  PNPM_VERSION: 11
 
 jobs:
   diagnostics:
@@ -128,6 +129,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - id: setup-pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
       - uses: actions/checkout@v6
       - uses: actions/cache@v5
         env:
@@ -136,19 +141,19 @@ jobs:
             env.NODE_VERSION }}-
         with:
           key: >-
-            ${{ env.BASE_CACHE_KEY }}${{ hashFiles('**/package-lock.json')
+            ${{ env.BASE_CACHE_KEY }}${{ hashFiles('**/pnpm-lock.yaml')
             }}-${{hashFiles('**/.pre-commit-config.yaml') }}
           path: |
-            ${{ env.NPM_CACHE_DIR }}
+            ${{ env.PNPM_CACHE_DIR }}
             ${{ env.PRE_COMMIT_CACHE_DIR }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
       - name: Install package.json
-        run: npm install
+        run: pnpm install
       - name: Install dependencies
-        run: npm ci
+        run: pnpm ci
       - name: Run ESLint
-        run: npm run lint
+        run: pnpm run lint
       - name: Install pre-commit
         run: pip install pre-commit
       - name: Set up pre-commit hook environments
@@ -395,23 +400,29 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - id: setup-pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
       - name: Cache testing environments
         uses: actions/cache@v5
         env:
           BASE_CACHE_KEY: >-
-            ${{ github.job }}-${{ runner.os }}-node${{
+            ${{ github.job }}-${{ runner.os }}-node-${{
             env.NODE_VERSION }}-
         with:
           key: >-
-            ${{ env.BASE_CACHE_KEY }}${{ hashFiles('**/package-lock.json')
-            }}-${{ hashFiles('**/requirements.txt') }}
-          path: ${{ env.NPM_CACHE_DIR }}
+            ${{ env.BASE_CACHE_KEY }}${{ hashFiles('**/pnpm-lock.yaml')
+            }}-${{hashFiles('**/.pre-commit-config.yaml') }}
+          path: |
+            ${{ env.PNPM_CACHE_DIR }}
+            ${{ env.PRE_COMMIT_CACHE_DIR }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
       - name: Install package.json
-        run: npm install
+        run: pnpm install
       - name: Install dependencies
-        run: npm ci
+        run: pnpm ci
       - name: Download Docker image artifact
         uses: actions/download-artifact@v8
         with:
@@ -423,7 +434,7 @@ jobs:
       - name: Run tests
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
-        run: npm test
+        run: pnpm test
       - name: Setup tmate debug session
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE

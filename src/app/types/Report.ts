@@ -6,9 +6,7 @@ export interface ElevadrReport {
   arch_insights: Record<string, unknown>;
 }
 
-export interface ExecutiveSummary {
-  [key: string]: string;
-}
+export type ExecutiveSummary = Record<string, string>;
 
 export interface OTActivityCrossSegmentLine {
   "src_endpoint.ip": string;

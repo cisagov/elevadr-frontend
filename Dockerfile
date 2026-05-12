@@ -1,10 +1,10 @@
 # Build stage
-FROM node:25-alpine AS build
+FROM node:26-alpine AS build
 
 WORKDIR /app
 
 # Copy package files from the src/ directory
-COPY package*.json ./
+COPY package*.json pnpm-* ./
 
 # Install dependencies
 # Mount the cert secret for npm's SSL verification
@@ -12,7 +12,13 @@ RUN --mount=type=secret,id=ssl_cert,required=false \
     if [ -f /run/secrets/ssl_cert ]; then \
         npm config set cafile /run/secrets/ssl_cert; \
     fi && \
-    npm ci --omit=dev
+    npm install -g pnpm
+
+RUN --mount=type=secret,id=ssl_cert,required=false \
+    if [ -f /run/secrets/ssl_cert ]; then \
+        pnpm config set cafile /run/secrets/ssl_cert; \
+    fi && \
+    pnpm ci
 
 # Copy public assets
 COPY src/public/ ./public
@@ -23,10 +29,7 @@ COPY tsconfig.json ./
 
 # Build the application
 RUN --mount=type=secret,id=ssl_cert,required=false \
-    if [ -f /run/secrets/ssl_cert ]; then \
-        npm config set cafile /run/secrets/ssl_cert; \
-    fi && \
-    npm run build
+    pnpm run build
 
 # Production stage
 FROM nginxinc/nginx-unprivileged:alpine-perl

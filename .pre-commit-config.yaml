@@ -95,3 +95,11 @@ repos:
     rev: v3.0.1
     hooks:
       - id: docker-compose-check
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: 9158d5162f915488785c296b5d08d6d18be10d32
+    hooks:
+      - id: eslint
+        additional_dependencies:
+          - eslint@latest
+          - eslint-plugin-react@latest

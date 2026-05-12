@@ -6,7 +6,8 @@ COPY .devcontainer/certs/ /tmp/certs/
 # If you have multiple files, we concatenate into one bundle for apk.
 RUN set -eu; \
     if [ -n "$(ls -A /tmp/certs 2>/dev/null)" ]; then \
-      cat /tmp/certs/* > /etc/ssl/certs/custom-bundle.pem; \
+      cat /tmp/certs/* > /etc/ssl/certs/custom-bundle.pem && \
+      npm config set cafile "/etc/ssl/certs/custom-bundle.pem"; \
     fi
 
 # Ensure apk uses the bundle for TLS verification during the bootstrap phase
@@ -26,6 +27,8 @@ RUN apk add --no-cache \
     docker-compose \
     sudo \
     openssh
+
+RUN npm install -g pnpm
 
 USER node
 

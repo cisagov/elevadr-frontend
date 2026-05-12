@@ -2,35 +2,35 @@ import React, { useState, useMemo } from "react";
 import "./SortableTable.css";
 import { getNestedValue, toFilterableString } from "../../utils/tableUtils";
 
-export interface Column {
+export interface Column<T = unknown, R = unknown> {
   key: string;
   label: string | React.ReactNode;
   sortable?: boolean;
   align?: "left" | "center" | "right";
-  render?: (value: any, row: any) => React.ReactNode;
-  onClick?: (value: any, row: any) => void;
+  render?: (value: T, row: R) => React.ReactNode;
+  onClick?: (value: T, row: R) => void;
   clickable?: boolean;
 }
 
-interface SortableTableProps {
-  columns: Column[];
-  data: any[];
+interface SortableTableProps<T = unknown, R = unknown> {
+  columns: Column<T, R>[];
+  data: R[];
   filterable?: boolean;
   filterPlaceholder?: string;
   emptyMessage?: string;
-  onRowClick?: (row: any) => void;
+  onRowClick?: (row: R) => void;
 }
 
 type SortDirection = "asc" | "desc" | null;
 
-const SortableTable: React.FC<SortableTableProps> = ({
+const SortableTable = <T = unknown, R = unknown>({
   columns,
   data,
   filterable = false,
   filterPlaceholder = "Filter table...",
   emptyMessage = "No data available",
   onRowClick,
-}) => {
+}: SortableTableProps<T, R>) => {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
   const [filter, setFilter] = useState("");
@@ -59,7 +59,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
       const searchText = filter.toLowerCase();
       result = result.filter((row) =>
         columns.some((col) => {
-          const value = getNestedValue(row, col.key);
+          const value = getNestedValue(row, col.key) as T;
           return toFilterableString(value).toLowerCase().includes(searchText);
         }),
       );
@@ -68,8 +68,8 @@ const SortableTable: React.FC<SortableTableProps> = ({
     // Apply sort
     if (sortColumn && sortDirection) {
       result.sort((a, b) => {
-        const aVal = getNestedValue(a, sortColumn);
-        const bVal = getNestedValue(b, sortColumn);
+        const aVal = getNestedValue(a, sortColumn) as T;
+        const bVal = getNestedValue(b, sortColumn) as T;
 
         // Handle numeric sorting
         if (typeof aVal === "number" && typeof bVal === "number") {
@@ -147,6 +147,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
               ))}
             </tr>
           </thead>
+
           <tbody>
             {filteredAndSortedData.length > 0 ? (
               filteredAndSortedData.map((row, idx) => (
@@ -156,9 +157,11 @@ const SortableTable: React.FC<SortableTableProps> = ({
                   onClick={() => onRowClick?.(row)}
                 >
                   {columns.map((col) => {
+                    const cellValue = getNestedValue(row, col.key) as T;
                     const isClickableCell = Boolean(
                       col.onClick || col.clickable,
                     );
+
                     return (
                       <td
                         key={col.key}
@@ -167,13 +170,13 @@ const SortableTable: React.FC<SortableTableProps> = ({
                         onClick={(event) => {
                           if (col.onClick) {
                             event.stopPropagation();
-                            col.onClick(getNestedValue(row, col.key), row);
+                            col.onClick(cellValue, row);
                           }
                         }}
                       >
                         {col.render
-                          ? col.render(getNestedValue(row, col.key), row)
-                          : String(getNestedValue(row, col.key) ?? "")}
+                          ? col.render(cellValue, row)
+                          : String(cellValue ?? "")}
                       </td>
                     );
                   })}

@@ -15,7 +15,7 @@ const GenericDevicePanel: React.FC<GenericDevicePanelProps> = ({
   title,
   deviceType,
 }) => {
-  const columns: Column[] = [
+  const columns: Column<unknown, Device>[] = [
     {
       key: "manufacturer",
       label: (
@@ -35,7 +35,7 @@ const GenericDevicePanel: React.FC<GenericDevicePanelProps> = ({
         </div>
       ),
       sortable: true,
-      render: (_value: any, row: Device) => {
+      render: (_value: unknown, row: Device) => {
         const ips = [...(row.ipv4_ips || []), ...(row.ipv6_ips || [])];
         return ips.length > 0 ? ips.join(", ") : "N/A";
       },
@@ -49,7 +49,7 @@ const GenericDevicePanel: React.FC<GenericDevicePanelProps> = ({
         </div>
       ),
       sortable: true,
-      render: (_value: any, row: Device) => {
+      render: (_value: unknown, row: Device) => {
         const subnets = [
           ...(row.ipv4_subnets || []),
           ...(row.ipv6_subnets || []),
@@ -66,8 +66,8 @@ const GenericDevicePanel: React.FC<GenericDevicePanelProps> = ({
         </div>
       ),
       sortable: true,
-      render: (services: string[] | null) =>
-        services ? services.join(", ") : "N/A",
+      render: (_value: unknown, row: Device) =>
+        row.incoming_services ? row.incoming_services.join(", ") : "N/A",
     },
   ];
 
@@ -86,7 +86,7 @@ const GenericDevicePanel: React.FC<GenericDevicePanelProps> = ({
       }
       isEmpty={isEmpty}
     >
-      <SortableTable
+      <SortableTable<unknown, Device>
         columns={columns}
         data={data}
         filterable={true}

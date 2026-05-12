@@ -21,7 +21,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({ text }) => {
 
       // Position to the left of the button
       let left = buttonRect.left - gap;
-      let top = buttonRect.top + buttonRect.height / 2;
+      const top = buttonRect.top + buttonRect.height / 2;
 
       // Check if there's enough space on the left
       if (left - tooltipWidth < padding) {

@@ -1,8 +1,11 @@
 import React from "react";
 import SortableTable, { Column } from "../SortableTable/SortableTable";
-import { Device, OTService } from "../../types/Report";
+import { Device, OTService, ServiceConnectionDetail } from "../../types/Report";
 
-export const connectionDetailColumns: Column[] = [
+export const connectionDetailColumns: Column<
+  unknown,
+  ServiceConnectionDetail
+>[] = [
   { key: "src_endpoint.ip", label: "Source IP", sortable: true },
   { key: "src_endpoint.subnet", label: "Src Subnet", sortable: true },
   { key: "src_device.manufacturer", label: "Src Manufacturer", sortable: true },
@@ -46,7 +49,7 @@ const renderSubnets = (_value: unknown, row: Device) => {
 const renderServices = (services: string[] | null) =>
   services && services.length > 0 ? services.join(", ") : "N/A";
 
-export const deviceDetailColumns: Column[] = [
+export const deviceDetailColumns: Column<unknown, Device>[] = [
   { key: "manufacturer", label: "Manufacturer", sortable: true },
   { key: "mac", label: "MAC", sortable: true },
   {
@@ -90,22 +93,22 @@ export const buildOtServiceRows = (services: OTService[]) =>
       : [],
   }));
 
-interface DrilldownTableProps {
-  columns: Column[];
-  data: unknown[];
+interface DrilldownTableProps<T = unknown, R = unknown> {
+  columns: Column<T, R>[];
+  data: R[];
   filterPlaceholder: string;
   emptyMessage: string;
 }
 
-const DrilldownTable: React.FC<DrilldownTableProps> = ({
+const DrilldownTable = <T = unknown, R = unknown>({
   columns,
   data,
   filterPlaceholder,
   emptyMessage,
-}) => (
+}: DrilldownTableProps<T, R>) => (
   <SortableTable
     columns={columns}
-    data={data as any[]}
+    data={data}
     filterable={true}
     filterPlaceholder={filterPlaceholder}
     emptyMessage={emptyMessage}
