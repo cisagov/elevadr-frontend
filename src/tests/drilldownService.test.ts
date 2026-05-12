@@ -1,3 +1,4 @@
+// src/__tests__/drilldownService.test.ts
 import {
   fetchFilteredConnections,
   fetchFilteredDevices,
@@ -5,9 +6,12 @@ import {
   fetchServiceDrilldown,
 } from "../app/services/drilldownService";
 
+import { vi, describe, it, expect, beforeEach } from "vitest";
+
 describe("drilldownService", () => {
+  /* Reset any spies/mocks before each test so they don’t leak between cases */
   beforeEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it("builds the service drilldown URL and returns parsed data", async () => {
@@ -17,12 +21,18 @@ describe("drilldownService", () => {
       connections: [],
     };
 
-    const fetchMock = jest.spyOn(globalThis, "fetch").mockResolvedValue({
-      ok: true,
-      json: async () => responseBody,
-    } as Response);
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue({
+        ok: true,
+        json: async () => responseBody,
+      } as Response);
 
-    const result = await fetchServiceDrilldown("report-123", "modbus tcp", 25);
+    const result = await fetchServiceDrilldown(
+      "report-123",
+      "modbus tcp",
+      25,
+    );
 
     expect(result).toEqual(responseBody);
     expect(fetchMock).toHaveBeenCalledWith(
@@ -31,14 +41,16 @@ describe("drilldownService", () => {
   });
 
   it("omits empty filter values when building filtered connection queries", async () => {
-    const fetchMock = jest.spyOn(globalThis, "fetch").mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        report_id: "report-123",
-        filters: {},
-        connections: [],
-      }),
-    } as Response);
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          report_id: "report-123",
+          filters: {},
+          connections: [],
+        }),
+      } as Response);
 
     await fetchFilteredConnections("report-123", {
       service_name: "dns",
@@ -54,7 +66,7 @@ describe("drilldownService", () => {
   });
 
   it("surfaces backend response text for filtered device errors", async () => {
-    jest.spyOn(globalThis, "fetch").mockResolvedValue({
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
       ok: false,
       status: 400,
       text: async () => "Bad device request",
@@ -66,7 +78,7 @@ describe("drilldownService", () => {
   });
 
   it("falls back to status code when filtered service errors have no body", async () => {
-    jest.spyOn(globalThis, "fetch").mockResolvedValue({
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
       ok: false,
       status: 503,
       text: async () => "",

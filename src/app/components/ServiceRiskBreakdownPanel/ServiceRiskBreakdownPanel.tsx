@@ -27,6 +27,47 @@ interface ServiceRiskBreakdownPanelProps {
   reportId: ElevadrReport["report_id"];
 }
 
+/**
+ * FIX: Moved CustomTooltip outside of the main component.
+ * This prevents the component from being recreated on every render,
+ * resolving the 'react-hooks/static-components' ESLint error.
+ */
+const CustomTooltip = ({
+  active,
+  payload,
+  data, // Pass the data prop here
+}: {
+  active?: boolean;
+  payload?: {
+    value?: string | number;
+    payload: {
+      category: string;
+    };
+  }[];
+  data: ServiceRiskBreakdownPanelType;
+}) => {
+  if (active && payload && payload.length) {
+    const category = payload[0].payload.category;
+    const services = data.risk_category_services[category] || [];
+
+    return (
+      <div className="risk-chart-tooltip">
+        <p className="tooltip-title">{category}</p>
+        <p className="tooltip-count">Count: {payload[0].value}</p>
+        <div className="tooltip-services">
+          <strong>Services:</strong>
+          <ul>
+            {services.map((service, idx) => (
+              <li key={idx}>{service}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
 const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
   data,
   reportId,
@@ -42,7 +83,6 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
     }),
   );
 
-  // Flatten the table data for SortableTable
   const tableData = Object.entries(data.risk_category_services).flatMap(
     ([category, services]) =>
       services.map((service) => ({
@@ -106,40 +146,6 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
     },
   ];
 
-  const CustomTooltip = ({
-    active,
-    payload,
-  }: {
-    active?: boolean;
-    payload?: {
-      value?: string | number;
-      payload: {
-        category: string;
-      };
-    }[];
-  }) => {
-    if (active && payload && payload.length) {
-      const category = payload[0].payload.category;
-      const services = data.risk_category_services[category] || [];
-
-      return (
-        <div className="risk-chart-tooltip">
-          <p className="tooltip-title">{category}</p>
-          <p className="tooltip-count">Count: {payload[0].value}</p>
-          <div className="tooltip-services">
-            <strong>Services:</strong>
-            <ul>
-              {services.map((service, idx) => (
-                <li key={idx}>{service}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      );
-    }
-    return null;
-  };
-
   const isEmpty =
     Object.keys(data.risk_category_counts).length === 0 &&
     tableData.length === 0;
@@ -178,7 +184,8 @@ const ServiceRiskBreakdownPanel: React.FC<ServiceRiskBreakdownPanelProps> = ({
                 width={110}
                 tick={{ fontSize: 12 }}
               />
-              <Tooltip content={<CustomTooltip />} />
+              {/* FIX: Pass the data prop to the external CustomTooltip component */}
+              <Tooltip content={<CustomTooltip data={data} />} />
               <Bar dataKey="count">
                 {chartData.map((_, index) => (
                   <Cell

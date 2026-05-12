@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Panel.css";
 
 interface PanelProps {
@@ -21,9 +21,9 @@ const Panel: React.FC<PanelProps> = ({
   const [isExpanded, setIsExpanded] = useState(!isEmpty); // Default to expanded if not empty
 
   // Effect to update expanded state if isEmpty prop changes
-  useEffect(() => {
-    setIsExpanded(!isEmpty);
-  }, [isEmpty]);
+  // useEffect(() => {
+  //   setIsExpanded(!isEmpty);
+  // }, [isEmpty]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
