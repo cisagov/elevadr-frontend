@@ -1,39 +1,47 @@
-FROM node:25-alpine AS dev
+FROM node:25-bookworm AS dev
 
 # Copy certs (expect the PEM file(s) in .devcontainer/certs/)
 COPY .devcontainer/certs/ /tmp/certs/
 
-# If you have multiple files, we concatenate into one bundle for apk.
+# Handle custom certificates for Debian/Bookworm
 RUN set -eu; \
     if [ -n "$(ls -A /tmp/certs 2>/dev/null)" ]; then \
-      cat /tmp/certs/* > /etc/ssl/certs/custom-bundle.pem && \
-      npm config set cafile "/etc/ssl/certs/custom-bundle.pem"; \
+      # In Debian, we append to the ca-certificates bundle
+      cat /tmp/certs/* > /usr/local/share/ca-certificates/custom-bundle.crt && \
+      update-ca-certificates; \
+      npm config set cafile "/etc/ssl/certs/ca-certificates.crt"; \
     fi
 
-# Ensure apk uses the bundle for TLS verification during the bootstrap phase
-ENV SSL_CERT_FILE=/etc/ssl/certs/custom-bundle.pem
+# Ensure the environment knows where the bundle is
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
-# Now apk should work
-RUN apk update && apk add --no-cache ca-certificates \
-  && update-ca-certificates
-
-RUN apk add --no-cache \
+# Install system dependencies using apt-get
+# Note: 'build-base' (Alpine) becomes 'build-essential' (Debian)
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     bash \
     python3 \
-    py3-pip \
+    python3-pip \
     nginx \
-    build-base \
+    build-essential \
     docker-compose \
     sudo \
-    openssh
+    openssh-client \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
+# Install pnpm globally
 RUN npm install -g pnpm
+
+# Configure sudo for the node user
+RUN echo "node ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER node
 
+# Allow pip to install packages globally in the container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
+# Add local bin to path in bashrc
 RUN echo "export PATH=\$HOME/.local/bin:\$PATH" >> ~/.bashrc
 
 WORKDIR /workspace

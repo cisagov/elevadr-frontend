@@ -9,7 +9,7 @@ if [[ -n "${SSL_CERT_FILE}" && -f "${SSL_CERT_FILE:-}" && -f "${SSL_CERT_FILE}" 
   pnpm config set cafile "$USER_CERT_PATH"
   pip config set global.cert "$USER_CERT_PATH"
 
-  export NODE_EXTRA_CA_CERTS="$USER_CERT_PATH"
+  echo "export NODE_EXTRA_CA_CERTS=\"$USER_CERT_PATH\"" >> ~/.bashrc
 else
   echo "=== No optional cert supplied ==="
 fi
@@ -19,4 +19,4 @@ git config core.fileMode false
 echo "=== Installing pnpm dependencies (dev) ==="
 pnpm install
 pip install pre-commit
-pre-commit install && pre-commit install-hooks
+pre-commit
