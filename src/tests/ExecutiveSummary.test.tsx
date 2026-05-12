@@ -26,8 +26,7 @@ describe("ExecutiveSummary (Vitest)", () => {
     expect(
       screen.getByText((content, element) => {
         const hasText =
-          element?.textContent ===
-          "Detected risky services on the network.";
+          element?.textContent === "Detected risky services on the network.";
         const isDeepest =
           element?.firstElementChild === null ||
           element?.firstElementChild?.textContent !==

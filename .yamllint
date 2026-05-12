@@ -3,6 +3,7 @@ extends: default
 
 ignore: |
   pnpm-lock.yaml
+  pnpm-workspace.yaml
 
 rules:
   braces:

@@ -3,8 +3,7 @@
    -------------------------------------------------------------- */
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
-declare const global: typeof globalThis;   // <-- adds the missing name
-
+declare const global: typeof globalThis; // <-- adds the missing name
 
 /* --------------------------------------------------------------
    Global ResizeObserver mock – many UI components (MUI, charts,

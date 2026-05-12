@@ -21,18 +21,12 @@ describe("drilldownService", () => {
       connections: [],
     };
 
-    const fetchMock = vi
-      .spyOn(globalThis, "fetch")
-      .mockResolvedValue({
-        ok: true,
-        json: async () => responseBody,
-      } as Response);
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => responseBody,
+    } as Response);
 
-    const result = await fetchServiceDrilldown(
-      "report-123",
-      "modbus tcp",
-      25,
-    );
+    const result = await fetchServiceDrilldown("report-123", "modbus tcp", 25);
 
     expect(result).toEqual(responseBody);
     expect(fetchMock).toHaveBeenCalledWith(
@@ -41,16 +35,14 @@ describe("drilldownService", () => {
   });
 
   it("omits empty filter values when building filtered connection queries", async () => {
-    const fetchMock = vi
-      .spyOn(globalThis, "fetch")
-      .mockResolvedValue({
-        ok: true,
-        json: async () => ({
-          report_id: "report-123",
-          filters: {},
-          connections: [],
-        }),
-      } as Response);
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        report_id: "report-123",
+        filters: {},
+        connections: [],
+      }),
+    } as Response);
 
     await fetchFilteredConnections("report-123", {
       service_name: "dns",

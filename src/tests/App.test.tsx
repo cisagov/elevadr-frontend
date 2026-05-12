@@ -1,11 +1,6 @@
 // src/__tests__/App.test.tsx
 import React from "react";
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "../app/App";
 import { createMockReport } from "./reportFactory";
 import { vi, describe, it, expect, beforeEach } from "vitest";
@@ -37,9 +32,7 @@ describe("App", () => {
 
     expect(screen.getByText("eleVADR Dashboard")).toBeInTheDocument();
     expect(screen.getByText("Awaiting input...")).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Run Analysis" }),
-    ).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Run Analysis" })).toBeDisabled();
   });
 
   it("uploads a pcap and renders dashboard panels from backend data", async () => {
@@ -58,14 +51,10 @@ describe("App", () => {
     });
 
     fireEvent.change(input, { target: { files: [file] } });
-    fireEvent.click(
-      screen.getByRole("button", { name: "Run Analysis" }),
-    );
+    fireEvent.click(screen.getByRole("button", { name: "Run Analysis" }));
 
     // ---- UI that appears after a successful analysis -------------
-    expect(
-      await screen.findByText("Executive Summary"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("Executive Summary")).toBeInTheDocument();
     expect(screen.getByText("Service Panel")).toBeInTheDocument();
     expect(screen.getByText("Service Count")).toBeInTheDocument();
 
@@ -96,9 +85,7 @@ describe("App", () => {
         files: [new File(["pcap-bytes"], "capture.pcap")],
       },
     });
-    fireEvent.click(
-      screen.getByRole("button", { name: "Run Analysis" }),
-    );
+    fireEvent.click(screen.getByRole("button", { name: "Run Analysis" }));
 
     expect(
       await screen.findByText("Unsupported report version"),
@@ -123,9 +110,7 @@ describe("App", () => {
         files: [new File(["pcap-bytes"], "capture.pcap")],
       },
     });
-    fireEvent.click(
-      screen.getByRole("button", { name: "Run Analysis" }),
-    );
+    fireEvent.click(screen.getByRole("button", { name: "Run Analysis" }));
 
     expect(
       await screen.findByText("Error during analysis"),

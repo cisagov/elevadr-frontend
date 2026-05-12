@@ -33,9 +33,7 @@ function Harness({ fetcher }: HarnessProps): JSX.Element {
       </button>
 
       {/* UI mirrors the hook state – used for assertions */}
-      <span data-testid="selected-key">
-        {drilldown.selectedKey ?? "none"}
-      </span>
+      <span data-testid="selected-key">{drilldown.selectedKey ?? "none"}</span>
       <span data-testid="loading">{String(drilldown.isLoading)}</span>
       <span data-testid="error">{drilldown.error ?? "none"}</span>
       <span data-testid="value">{drilldown.data?.value ?? "none"}</span>

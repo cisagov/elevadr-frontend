@@ -32,11 +32,11 @@ export default tseslint.config(
     },
     rules: {
       // React 19 doesn't require React to be in scope, so disable this
-      "react/react-in-jsx-scope": "off", 
-      
+      "react/react-in-jsx-scope": "off",
+
       // Use the recommended hooks rules
       ...hooksPlugin.configs.recommended.rules,
-      
+
       // Example: prevent unused variables (warn instead of error)
       "@typescript-eslint/no-unused-vars": "warn",
     },
@@ -45,5 +45,5 @@ export default tseslint.config(
         version: "detect", // Automatically detects React 19
       },
     },
-  }
+  },
 );
