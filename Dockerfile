@@ -25,7 +25,8 @@ COPY src/public/ ./public
 
 # Copy source code
 COPY src/app ./src
-COPY tsconfig.json ./
+COPY tsconfig.json vite.config.ts ./
+COPY src/index.html .
 
 # Build the application
 RUN --mount=type=secret,id=ssl_cert,required=false \
@@ -37,8 +38,10 @@ FROM nginxinc/nginx-unprivileged:alpine-perl
 # Switch to root for setup
 USER root
 
+RUN rm -rf /usr/share/nginx/html/*
+
 # Copy built assets from build stage
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy custom nginx configuration
 COPY src/nginx.conf /etc/nginx/conf.d/default.conf
