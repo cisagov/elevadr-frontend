@@ -148,8 +148,6 @@ jobs:
             ${{ env.PRE_COMMIT_CACHE_DIR }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
-      - name: Install package.json
-        run: pnpm install
       - name: Install dependencies
         run: pnpm ci
       - name: Run ESLint
@@ -419,8 +417,6 @@ jobs:
             ${{ env.PRE_COMMIT_CACHE_DIR }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
-      - name: Install package.json
-        run: pnpm install
       - name: Install dependencies
         run: pnpm ci
       - name: Download Docker image artifact
