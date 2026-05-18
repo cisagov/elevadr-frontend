@@ -2,6 +2,7 @@
 
 allowBuilds:
   "@ast-grep/cli": true
+  '@swc/core': true
   core-js: true
   core-js-pure: false
   esbuild: true

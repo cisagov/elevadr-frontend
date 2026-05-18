@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { ElevadrReport } from "./types/Report";
 
@@ -13,6 +13,7 @@ import OTServices from "./components/OTServices/OTServices";
 import OTCrossSegmentPanel from "./components/OTCrossSegmentPanel/OTCrossSegmentPanel";
 import DevicesPanel from "./components/DevicesPanel/DevicesPanel";
 import UploadForm from "./components/UploadForm/UploadForm";
+import { sweepStaleTempFiles } from "./services/opfs";
 
 const SUPPORTED_REPORT_MAJOR_VERSION = "2";
 
@@ -22,6 +23,9 @@ function isSupportedReportVersion(version?: string): boolean {
 }
 
 function App() {
+  useEffect(() => {
+    sweepStaleTempFiles();
+  }, []);
   const [report, setReport] = useState<ElevadrReport | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 

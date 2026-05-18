@@ -26,7 +26,7 @@ COPY src/public/ ./public
 # Copy source code
 COPY src/app ./src
 COPY tsconfig.json vite.config.ts ./
-COPY src/index.html .
+COPY src/index.html ./
 
 # Build the application
 RUN --mount=type=secret,id=ssl_cert,required=false \
