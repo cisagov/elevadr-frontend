@@ -1,4 +1,4 @@
-FROM node:25-bookworm AS dev
+FROM node:24-bookworm AS dev
 
 # Copy certs (expect the PEM file(s) in .devcontainer/certs/)
 COPY .devcontainer/certs/ /tmp/certs/

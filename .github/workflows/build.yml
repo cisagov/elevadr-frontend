@@ -148,6 +148,10 @@ jobs:
             ${{ env.PRE_COMMIT_CACHE_DIR }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
+      - name: Relax security policy for Dependabot
+        if: github.actor == 'dependabot[bot]'
+        run: |
+          echo "supply-chain-policy-minimum-release-age=0" >> .npmrc
       - name: Install dependencies
         run: pnpm ci
       - name: Run ESLint
@@ -417,6 +421,10 @@ jobs:
             ${{ env.PRE_COMMIT_CACHE_DIR }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
+      - name: Relax security policy for Dependabot
+        if: github.actor == 'dependabot[bot]'
+        run: |
+          echo "supply-chain-policy-minimum-release-age=0" >> .npmrc
       - name: Install dependencies
         run: pnpm ci
       - name: Download Docker image artifact
