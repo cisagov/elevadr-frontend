@@ -42,7 +42,7 @@ env:
   PRE_COMMIT_CACHE_DIR: ~/.cache/pre-commit
   RUN_TMATE: ${{ secrets.RUN_TMATE }}
   PNPM_CACHE_DIR: ~/.cache/pnpm
-  NODE_VERSION: 20
+  NODE_VERSION: 22
   PNPM_VERSION: 11
 
 jobs:
