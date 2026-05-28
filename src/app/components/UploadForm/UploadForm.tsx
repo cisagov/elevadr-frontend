@@ -171,7 +171,10 @@ const UploadForm: React.FC<UploadFormProps> = ({
       </form>
 
       {/* JSON report upload */}
-      <form onSubmit={handleJsonUpload} className="upload-form json-upload-form">
+      <form
+        onSubmit={handleJsonUpload}
+        className="upload-form json-upload-form"
+      >
         <label htmlFor="json-upload" className="upload-label">
           Upload JSON Report
         </label>
