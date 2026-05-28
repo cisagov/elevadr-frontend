@@ -33,6 +33,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
   setIsAnalyzing,
 }) => {
   const [file, setFile] = useState<File | null>(null);
+  const [jsonFile, setJsonFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<ProgressEvent | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
@@ -40,7 +41,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
   // -----------------------------------------------------------------
   // PCAP upload handling (existing functionality)
   // -----------------------------------------------------------------
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setProgress(null);
@@ -105,6 +106,42 @@ const UploadForm: React.FC<UploadFormProps> = ({
     }
   };
 
+  const isElevadrReport = (value: unknown): value is ElevadrReport => {
+    if (typeof value !== "object" || value === null) {
+      return false;
+    }
+
+    const candidate = value as Partial<ElevadrReport>;
+    return Boolean(candidate.executive_summary && candidate.modules);
+  };
+
+  const handleJsonUpload = async (
+    e: FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
+    e.preventDefault();
+    setError(null);
+
+    if (!jsonFile) {
+      setError("Please select a JSON report to upload.");
+      return;
+    }
+
+    try {
+      const contents = await jsonFile.text();
+      const parsed: unknown = JSON.parse(contents);
+
+      if (!isElevadrReport(parsed)) {
+        throw new Error("Invalid JSON report format.");
+      }
+
+      onReportLoaded(parsed);
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : "Failed to load JSON report",
+      );
+    }
+  };
+
   return (
     <div className="upload-container">
       {/* PCAP upload form */}
@@ -129,6 +166,24 @@ const UploadForm: React.FC<UploadFormProps> = ({
             className="download-button"
           >
             Download JSON Report
+          </button>
+        </div>
+      </form>
+
+      {/* JSON report upload */}
+      <form onSubmit={handleJsonUpload} className="upload-form json-upload-form">
+        <label htmlFor="json-upload" className="upload-label">
+          Upload JSON Report
+        </label>
+        <input
+          id="json-upload"
+          type="file"
+          accept=".json,application/json"
+          onChange={(e) => setJsonFile(e.target.files?.[0] || null)}
+        />
+        <div className="form-actions">
+          <button type="submit" disabled={!jsonFile || isAnalyzing}>
+            Load JSON Report
           </button>
         </div>
       </form>

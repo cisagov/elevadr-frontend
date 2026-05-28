@@ -8,7 +8,8 @@
         "esbenp.prettier-vscode",
         "ms-vscode.vscode-typescript-next",
         "ms-azuretools.vscode-docker",
-        "yoavbls.pretty-ts-errors"
+        "yoavbls.pretty-ts-errors",
+        "github.vscode-github-actions"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
