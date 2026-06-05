@@ -5,7 +5,7 @@
   "dependencies": {
     "@types/node": "^25.9.1",
     "@typescript-eslint/eslint-plugin": "^8.60.0",
-    "@typescript-eslint/parser": "^8.60.0",
+    "@typescript-eslint/parser": "^8.60.1",
     "@uswds/uswds": "^3.13.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
